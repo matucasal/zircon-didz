@@ -10,7 +10,7 @@ export class DidController {
     return this.didService.getService();
   }
 
-  @Post('generate')
+  @Post('generate-jwt-did')
   async generateJwtDid(): Promise<string> {
     return await this.didService.generateJwtDid();
   }
