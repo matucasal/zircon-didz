@@ -11,7 +11,7 @@ export class DidController {
   }
 
   @Post('generate')
-  generateDid(): string {
-    return this.didService.generateDid();
+  async generateDid(): Promise<string> {
+    return await this.didService.generateDid();
   }
 }
