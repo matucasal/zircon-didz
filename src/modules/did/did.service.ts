@@ -8,7 +8,7 @@ export class DidService {
     return 'Hello From Services!';
   }
 
-  async generateDid(): Promise<string> {
+  async generateJwtDid(): Promise<string> {
     return await this.didJwtService.createJWT();
   }
 }
