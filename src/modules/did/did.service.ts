@@ -11,4 +11,8 @@ export class DidService {
   async generateJwtDid(): Promise<string> {
     return await this.didJwtService.createJWT();
   }
+
+  async generateIpfsDid(): Promise<string> {
+    return 'Hello From Ipfs Did!';
+  }
 }
