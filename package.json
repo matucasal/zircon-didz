@@ -24,7 +24,11 @@
     "@nestjs/core": "^9.0.0",
     "@nestjs/platform-express": "^9.0.0",
     "@pinata/sdk": "^2.1.0",
+    "@transmute/did-key-ed25519": "^0.3.0-unstable.10",
     "did-jwt": "^6.11.2",
+    "ethr-did": "^2.3.6",
+    "ethr-did-resolver": "^8.0.0",
+    "key-did-resolver": "^3.0.0",
     "reflect-metadata": "^0.1.13",
     "rxjs": "^7.2.0"
   },

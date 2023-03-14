@@ -19,4 +19,8 @@ export class DidController {
   async generateIpfsDid(): Promise<string> {
     return await this.didService.generateIpfsDid();
   }
+
+  async generateEthrDid(): Promise<string> {
+    return await this.didService.generateEthrDid();
+  }
 }
