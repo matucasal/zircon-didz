@@ -26,6 +26,7 @@
     "@pinata/sdk": "^2.1.0",
     "@transmute/did-key-ed25519": "^0.3.0-unstable.10",
     "did-jwt": "^6.11.2",
+    "dotenv": "^16.0.3",
     "ethr-did": "^2.3.6",
     "ethr-did-resolver": "^8.0.0",
     "key-did-resolver": "^3.0.0",

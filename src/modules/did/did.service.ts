@@ -1,7 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { DidJwtService } from '../common/did-jwt/did-jwt.service';
-import pinataSDK from '@pinata/sdk';
-
+import PinataSDK from '@pinata/sdk';
 import { Ed25519KeyPair } from '@transmute/did-key-ed25519';
 import { Resolver } from 'did-resolver';
 import * as ethr from 'ethr-did-resolver';
@@ -10,6 +9,8 @@ import { EthrDID } from 'ethr-did';
 
 @Injectable()
 export class DidService {
+  private pinata: any;
+
   constructor(private readonly didJwtService: DidJwtService) {}
   getService(): string {
     return 'Hello From Services!';
@@ -70,8 +71,24 @@ export class DidService {
 
     const chainNameOrId = 'goerli'; // mainnet
 
-    const ethrDidOnGoerliNamed = new EthrDID({ ...keypair, chainNameOrId });
-    console.log('ethrDidOnGoerliNamed', ethrDidOnGoerliNamed);
+    const etherDidGenerated = new EthrDID({ ...keypair, chainNameOrId });
+    console.log('etherDidGenerated', etherDidGenerated);
+
+    const didDocument = await this.resolveDid(etherDidGenerated.did);
+
+    const pinata = new PinataSDK(
+      process.env.PINATE_API_KEY,
+      process.env.PINATA_SECRET,
+    );
+
+    const { IpfsHash } = await pinata.pinJSONToIPFS(didDocument);
+    console.log('IpfsHash', IpfsHash);
+
+    //ethrDidOnGoerliNamed.did.didDocument({ usePublicKeyHex: true });
+    //const didDocument = await ethrDidOnGoerliNamed.didDocument();
+
+    //store in ipfs
+
     return 'Hello From Ethr Did!';
   }
 
@@ -91,6 +108,6 @@ export class DidService {
 
     const didDocument = await resolver.resolve(did);
     console.log('didDocument', didDocument);
-    return 'Hello From Resolve Did!';
+    return JSON.stringify(didDocument);
   }
 }
