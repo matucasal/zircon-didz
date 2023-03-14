@@ -1,6 +1,5 @@
 import { Injectable } from '@nestjs/common';
 import { DidJwtService } from '../common/did-jwt/did-jwt.service';
-import PinataSDK from '@pinata/sdk';
 import { Ed25519KeyPair } from '@transmute/did-key-ed25519';
 import { Resolver } from 'did-resolver';
 import * as ethr from 'ethr-did-resolver';
@@ -9,8 +8,6 @@ import { EthrDID } from 'ethr-did';
 
 @Injectable()
 export class DidService {
-  private pinata: any;
-
   constructor(private readonly didJwtService: DidJwtService) {}
   getService(): string {
     return 'Hello From Services!';
@@ -76,7 +73,8 @@ export class DidService {
 
     const didDocument = await this.resolveDid(etherDidGenerated.did);
 
-    const pinata = new PinataSDK(
+    const pinataSDK = require('@pinata/sdk'); // eslint-disable-line
+    const pinata = new pinataSDK(
       process.env.PINATE_API_KEY,
       process.env.PINATA_SECRET,
     );
@@ -92,7 +90,7 @@ export class DidService {
     return 'Hello From Ethr Did!';
   }
 
-  async resolveDid(did: string): Promise<string> {
+  async resolveDid(did: string): Promise<any> {
     const config = {
       networks: [
         {
@@ -108,6 +106,6 @@ export class DidService {
 
     const didDocument = await resolver.resolve(did);
     console.log('didDocument', didDocument);
-    return JSON.stringify(didDocument);
+    return didDocument;
   }
 }
