@@ -4,7 +4,9 @@ import pinataSDK from '@pinata/sdk';
 
 import { Ed25519KeyPair } from '@transmute/did-key-ed25519';
 import { Resolver } from 'did-resolver';
-import { getResolver } from 'key-did-resolver';
+import * as ethr from 'ethr-did-resolver';
+//import ethr from "ethr-did-resolver";
+import { EthrDID } from 'ethr-did';
 
 @Injectable()
 export class DidService {
@@ -64,6 +66,31 @@ export class DidService {
   }
 
   async generateEthrDid(): Promise<string> {
+    const keypair = EthrDID.createKeyPair();
+
+    const chainNameOrId = 'goerli'; // mainnet
+
+    const ethrDidOnGoerliNamed = new EthrDID({ ...keypair, chainNameOrId });
+    console.log('ethrDidOnGoerliNamed', ethrDidOnGoerliNamed);
     return 'Hello From Ethr Did!';
+  }
+
+  async resolveDid(did: string): Promise<string> {
+    const config = {
+      networks: [
+        {
+          name: 'goerli',
+          rpcUrl:
+            'https://eth-goerli.g.alchemy.com/v2/0iMeQ3h8Hs01tM6a85Wvf1Vq9YZarSxG',
+        },
+      ],
+    };
+
+    const ethrResolver = ethr.getResolver(config);
+    const resolver = new Resolver(ethrResolver);
+
+    const didDocument = await resolver.resolve(did);
+    console.log('didDocument', didDocument);
+    return 'Hello From Resolve Did!';
   }
 }
