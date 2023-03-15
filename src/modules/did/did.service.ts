@@ -7,7 +7,7 @@ import { EthrDID } from 'ethr-did';
 
 @Injectable()
 export class DidService {
-  constructor(private readonly didJwtService: DidJwtService) { }
+  constructor(private readonly didJwtService: DidJwtService) {}
   getService(): string {
     return 'Hello From Services!';
   }
@@ -71,7 +71,6 @@ export class DidService {
 
     const { IpfsHash } = await pinata.pinJSONToIPFS(didDocument);
     console.log('IpfsHash', IpfsHash);
-
 
     return IpfsHash;
   }
