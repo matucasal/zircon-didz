@@ -1,6 +1,11 @@
+# Not envs
+.env
+
 # compiled output
 /dist
 /node_modules
+/pgadmin-data/
+/pgdata
 
 # Logs
 logs
@@ -10,9 +15,6 @@ pnpm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 lerna-debug.log*
-
-# Env files
-.env
 
 # OS
 .DS_Store
