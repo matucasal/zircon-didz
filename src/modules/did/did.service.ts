@@ -3,12 +3,11 @@ import { DidJwtService } from '../common/did-jwt/did-jwt.service';
 import { Ed25519KeyPair } from '@transmute/did-key-ed25519';
 import { Resolver } from 'did-resolver';
 import * as ethr from 'ethr-did-resolver';
-//import ethr from "ethr-did-resolver";
 import { EthrDID } from 'ethr-did';
 
 @Injectable()
 export class DidService {
-  constructor(private readonly didJwtService: DidJwtService) {}
+  constructor(private readonly didJwtService: DidJwtService) { }
   getService(): string {
     return 'Hello From Services!';
   }
@@ -18,10 +17,6 @@ export class DidService {
   }
 
   async generateIpfsDid(): Promise<string> {
-    // Generate key pair
-    // Initialize Pinata client
-    //const pinata = new pinataSDK('YOUR_API_KEY', 'YOUR_API_SECRET');
-
     const keyPair = await Ed25519KeyPair.generate({
       secureRandom: () => {
         return Buffer.from(
@@ -32,11 +27,6 @@ export class DidService {
     });
 
     const jwkpair = await keyPair.export({ type: 'JsonWebKey2020' });
-    //console.log('jwkpair', jwkpair);
-
-    //const publicKeyJwk = keyPair.toJwk('public');
-
-    //const did = `did:ethr:${keyPair.controller.split(':')[2]}`;
 
     const didDocument = {
       '@context': 'https://www.w3.org/ns/did/v1',
@@ -82,12 +72,8 @@ export class DidService {
     const { IpfsHash } = await pinata.pinJSONToIPFS(didDocument);
     console.log('IpfsHash', IpfsHash);
 
-    //ethrDidOnGoerliNamed.did.didDocument({ usePublicKeyHex: true });
-    //const didDocument = await ethrDidOnGoerliNamed.didDocument();
 
-    //store in ipfs
-
-    return 'Hello From Ethr Did!';
+    return IpfsHash;
   }
 
   async resolveDid(did: string): Promise<any> {
